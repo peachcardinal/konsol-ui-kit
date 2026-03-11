@@ -13,7 +13,7 @@ import { Checkbox } from "../../ui/checkbox";
 import { Tag } from "../../ui/Tag";
 import { Segments, SegmentItem } from "../../ui/Segments";
 import { Radio, RadioGroup } from "../../ui/radio";
-import { Table, TableHeader, TableRow, TableCell } from "../../ui/Table";
+import { Table, TableHeader, TableRow, TableCell } from "../../ui/table";
 import { ActionsPanel } from "../../ui/actions-panel";
 import { Toast } from "../../ui/toast";
 import { Alert } from "../../ui/alert";
