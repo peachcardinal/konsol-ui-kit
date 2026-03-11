@@ -5,7 +5,7 @@
 import { useState, useCallback, useMemo } from "react";
 import { Button } from "../button";
 import { Checkbox } from "../checkbox";
-import { Table, TableHeader, TableRow, TableCell } from "../Table";
+import { Table, TableHeader, TableRow, TableCell } from "../table";
 import { InputBasic, InputDate, InputTime, parseDisplayDateToISO } from "../Input";
 import { Textarea } from "../Textarea";
 import { Icon } from "../Icon";
