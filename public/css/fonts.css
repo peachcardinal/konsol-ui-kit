@@ -1,0 +1,171 @@
+/* Konsol UI — шрифты и текстовые стили (соответствие Figma) */
+
+/* ========== @font-face ========== */
+@font-face {
+  font-family: "Graphik";
+  src: url("/fonts/Graphik-Regular-Desktop.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Graphik";
+  src: url("/fonts/Graphik-Medium-Desktop.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Graphik";
+  src: url("/fonts/Graphik-Bold-Desktop.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "CoFo Sans Mono";
+  src: url("/fonts/CoFoSansMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ========== Переменные ========== */
+:root {
+  --font-graphik: "Graphik", system-ui, sans-serif;
+  --font-cofo-mono: "CoFo Sans Mono", ui-monospace, monospace;
+}
+
+/* ========== Стили по макету (Konsol-UI) ========== */
+
+/* Base — 14px / line-height 20 */
+.text-base-primary-normal {
+  font-family: var(--font-graphik);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+.text-base-secondary-normal {
+  font-family: var(--font-cofo-mono);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.03em;
+}
+.text-base-primary-strong {
+  font-family: var(--font-graphik);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+/* SM — 12px / line-height 16 */
+.text-sm-primary-normal {
+  font-family: var(--font-graphik);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+.text-sm-secondary-normal {
+  font-family: var(--font-cofo-mono);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -0.03em;
+}
+.text-sm-primary-strong {
+  font-family: var(--font-graphik);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+/* LG — 16px / line-height 22 */
+.text-lg-primary-normal {
+  font-family: var(--font-graphik);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0;
+}
+.text-lg-secondary-normal {
+  font-family: var(--font-cofo-mono);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.04em;
+}
+.text-lg-primary-strong {
+  font-family: var(--font-graphik);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0;
+}
+
+/* XL — 20px / line-height 26 */
+.text-xl-primary-normal {
+  font-family: var(--font-graphik);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: 0;
+}
+.text-xl-primary-strong {
+  font-family: var(--font-graphik);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: 0;
+}
+
+/* Heading 0–5 — Graphik Bold */
+.text-heading-0 {
+  font-family: var(--font-graphik);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 32px;
+  letter-spacing: 0;
+}
+.text-heading-1 {
+  font-family: var(--font-graphik);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: 0;
+}
+.text-heading-2 {
+  font-family: var(--font-graphik);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0;
+}
+.text-heading-3 {
+  font-family: var(--font-graphik);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: 0;
+}
+.text-heading-4 {
+  font-family: var(--font-graphik);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+.text-heading-5 {
+  font-family: var(--font-graphik);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0;
+}

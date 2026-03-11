@@ -1,0 +1,28 @@
+/**
+ * Konsol UI — отступы (8px grid, соответствие Figma)
+ */
+
+:root {
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+
+  /* Компоненты */
+  --sidebar-width: 280px;
+  --header-height: 56px;
+  --table-row-height: 56px;
+  /* Высоты как у кнопок: default 32, large 40. У инпута поиска small нет. */
+  --input-height-default: 32px;
+  --input-height-large: 40px;
+  --button-height-small: 24px;
+  --button-height-default: 32px;
+  --button-height-large: 40px;
+}

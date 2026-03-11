@@ -1,0 +1,208 @@
+/* Sidebar — структура как на проде (LayoutView-sidebar) */
+
+.sidebar {
+  width: 270px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100vh;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  overflow: hidden;
+  background-color: var(--color-bg-layout);
+  padding: var(--space-16) var(--space-16) 0 var(--space-16);
+  box-sizing: border-box;
+}
+
+.sidebar__top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.sidebar__company {
+  width: 100%;
+}
+
+.sidebar__balance {
+  width: 100%;
+  padding: var(--space-8) var(--space-12);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-secondary);
+  font-size: 12px;
+  line-height: 16px;
+  font-family: var(--font-graphik);
+}
+
+.sidebar__balance .sidebar-balance__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+}
+
+.sidebar__balance .sidebar-balance__label {
+  flex-shrink: 0;
+  color: var(--color-text-description);
+  line-height: 16px;
+}
+
+.sidebar__balance .sidebar-balance__value {
+  flex-shrink: 0;
+  color: var(--color-text-description);
+  line-height: 16px;
+}
+
+.sidebar__nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-height: 0;
+}
+
+.sidebar__nav-divider {
+  height: 1px;
+  margin: var(--space-8) 0;
+  background-color: var(--color-split);
+  border: none;
+  flex-shrink: 0;
+}
+
+.sidebar__footer {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-12);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-split);
+  flex-shrink: 0;
+}
+
+.sidebar-company {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--space-8);
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  box-sizing: border-box;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.sidebar-company:hover {
+  background-color: var(--control-item-bg-hover);
+}
+
+.sidebar-company__logo {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 0.5px solid var(--color-border-secondary);
+  overflow: hidden;
+}
+
+.sidebar-company__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sidebar-company__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text);
+}
+
+.sidebar-company__chevron {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-icon);
+}
+
+.sidebar-company__chevron svg {
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar-balance__row + .sidebar-balance__row {
+  margin-top: var(--space-4);
+}
+
+.sidebar-footer-user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--space-8);
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  box-sizing: border-box;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.sidebar-footer-user:hover {
+  background-color: var(--control-item-bg-hover);
+}
+
+.sidebar-footer-user__avatar {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--purple-1);
+  color: var(--purple-4);
+  font-family: var(--font-cofo-mono);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -0.03em;
+  border-radius: 50%;
+}
+
+.sidebar-footer-user__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text);
+}
+
+.sidebar-footer-user__arrow {
+  flex-shrink: 0;
+  color: var(--color-icon);
+}
+
+.sidebar-footer-user__arrow svg {
+  width: 20px;
+  height: 20px;
+}

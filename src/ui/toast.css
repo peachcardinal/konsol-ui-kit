@@ -1,0 +1,115 @@
+/* *Toast* — Figma 421:14564. Контейнер: по центру экрана, макс. ширина 500px, отступ сверху 20px. */
+
+.toast-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 500px;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast-container * {
+  pointer-events: auto;
+}
+
+/* Начальное состояние: тост «сверху», прозрачный (до появления). */
+.toast-container .toast {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+/* Появление: приезд сверху + плавный выход из opacity 0. */
+.toast-container.toast-container--visible .toast {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.28s ease-out, transform 0.35s cubic-bezier(0.21, 0.47, 0.32, 0.99);
+}
+
+/* Исчезновение: улетает вверх, уход в opacity 0. */
+.toast-container.toast-container--exiting .toast {
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: opacity 0.22s ease-in, transform 0.28s cubic-bezier(0.55, 0.06, 0.68, 0.19);
+}
+
+/* Один тост: pill, padding 10px 16px, gap 8px, Graphik 14/20. Контент центрируется вертикально. */
+.toast {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 1000px;
+  background: var(--color-bg-spotlight);
+  color: var(--color-text-light-solid);
+  font-family: var(--font-graphik, "Graphik", sans-serif);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.toast__icon {
+  flex-shrink: 0;
+  width: 20px;
+  min-width: 20px;
+  max-width: 20px;
+  height: 20px;
+  min-height: 20px;
+  max-height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Внутренний span от Icon не должен тянуть высоту из line-height */
+.toast__icon > * {
+  display: block;
+  line-height: 0;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Цвета иконок по типу тоста (не наследуют цвет текста) */
+.toast--normal .toast__icon {
+  color: var(--color-text-light-solid);
+}
+
+.toast--success .toast__icon {
+  color: var(--color-success-base);
+}
+
+.toast--warning .toast__icon {
+  color: var(--color-warning-base);
+}
+
+.toast--error .toast__icon {
+  color: var(--color-error-base);
+}
+
+.toast--loading .toast__icon {
+  color: var(--color-text-light-solid);
+  animation: toast-spin 1.17s linear infinite;
+}
+
+@keyframes toast-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.toast__message {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  text-align: left;
+}

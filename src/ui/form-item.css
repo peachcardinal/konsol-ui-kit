@@ -1,0 +1,24 @@
+/* Form Item — Figma 515:43856. InputLabel + контрол + опционально caption. */
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+}
+
+.form-item__control {
+  min-width: 0;
+}
+
+.form-item__caption {
+  font-family: var(--font-graphik);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-text-description);
+}
+
+.form-item__caption--error {
+  color: var(--color-error-base);
+}

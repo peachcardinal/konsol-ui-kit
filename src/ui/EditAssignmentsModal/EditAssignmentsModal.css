@@ -1,0 +1,515 @@
+/* Полноэкранная модалка «Изменить задания» */
+
+.edit-assignments-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+}
+
+.edit-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-bg-mask);
+}
+
+.edit-modal__container {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-container);
+  overflow: hidden;
+}
+
+/* В скролле только саммари и таблица; шапка закреплена */
+.edit-modal__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.edit-modal__header {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  padding: var(--space-24);
+  background-color: var(--color-bg-container);
+}
+
+.edit-modal__title {
+  margin: 0;
+  color: var(--color-text-heading);
+}
+
+.edit-modal__header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+/* Сводка: три карточки */
+.edit-modal__summary {
+  display: flex;
+  gap: 6px;
+  padding: 0 var(--space-24) var(--space-16);
+  flex-shrink: 0;
+}
+
+.edit-modal__summary-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-16);
+  border-radius: 16px;
+  background-color: var(--color-fill-tertiary);
+  min-width: 0;
+}
+
+.edit-modal__summary-label {
+  color: var(--color-text-description);
+}
+
+.edit-modal__summary-value {
+  color: var(--color-text);
+}
+
+/* Таблица — скролл как на стр. Задания: overflow в .table-scroll внутри Table */
+.edit-modal__table-section {
+  flex: 1;
+  min-height: 0;
+  padding: 0 var(--space-24) var(--space-24);
+  overflow: visible;
+}
+
+/* Фиксированная раскладка: ширина колонок строго по заданным width/min-width */
+.edit-modal__table-section .table {
+  table-layout: fixed;
+}
+
+/* В модалке скрываем иконку сортировки в шапке таблицы */
+.edit-modal__table-section .table-header__sorting-icon {
+  display: none;
+}
+
+/* Контент в ячейках — 100% ширины колонки */
+.edit-modal__table-section .table td > * {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* В колонке Статус тег — фон по ширине контента, не на всю ячейку */
+.edit-modal__table-section .table td.table-cell--status > * {
+  width: fit-content;
+}
+
+.edit-modal__table-section .table-wrapper {
+  border-radius: 10px;
+  overflow: visible;
+}
+
+/* В модалке: фиксируем только чекбокс, № и Статус; Исполнитель не фиксируем */
+.edit-modal__table-section .table th.table-header-cell--executor,
+.edit-modal__table-section .table td.table-cell--executor {
+  position: static;
+  left: auto;
+}
+.edit-modal__table-section .table th.table-header-cell--executor::after,
+.edit-modal__table-section .table td.table-cell--executor::after {
+  display: none;
+}
+
+/* Ячейка Исполнитель — прозрачный фон, чтобы при hover/selected был один слой (фон строки), без двойного серого из Table.css */
+.edit-modal__table-section .table td.table-cell--executor {
+  background: transparent !important;
+}
+.edit-modal__table-section .table tbody tr:hover td.table-cell--executor,
+.edit-modal__table-section .table tbody tr.table-row--selected td.table-cell--executor,
+.edit-modal__table-section .table tbody tr.table-row--selected:hover td.table-cell--executor {
+  background: transparent !important;
+}
+
+.edit-modal__table-section .table th.table-header-cell--num,
+.edit-modal__table-section .table td.table-cell--num {
+  left: 32px;
+}
+
+.edit-modal__table-section .table th.table-header-cell--status,
+.edit-modal__table-section .table td.table-cell--status {
+  position: sticky;
+  left: 112px; /* 32 (checkbox) + 80 (num) */
+  z-index: 2;
+  background: #ffffff;
+}
+.edit-modal__table-section .table thead th.table-header-cell--status {
+  background: #fbfbfb;
+}
+.edit-modal__table-section .table tbody tr:hover td.table-cell--status {
+  background: #f5f4f5;
+}
+.edit-modal__table-section .table tbody tr.table-row--selected td.table-cell--status,
+.edit-modal__table-section .table tbody tr.table-row--selected:hover td.table-cell--status {
+  background: #f8f0ff;
+}
+.edit-modal__table-section .table tbody tr.table-row--selected:hover td.table-cell--status {
+  background: #f3e5ff;
+}
+
+/* В модалке: отключаем тень у executor и вешаем её на Статус */
+.edit-modal__table-section .table-wrapper--ping-left .table th.table-header-cell--executor,
+.edit-modal__table-section .table-wrapper--ping-left .table td.table-cell--executor {
+  box-shadow: none;
+}
+.edit-modal__table-section .table-wrapper--ping-left .table th.table-header-cell--status,
+.edit-modal__table-section .table-wrapper--ping-left .table td.table-cell--status {
+  box-shadow: 4px 0 8px -6px rgba(0, 0, 0, 0.14);
+}
+
+/* Период: InputTime на всю ширину ячейки */
+.edit-modal__cell-period .input-date-root,
+.edit-modal__cell-period .input-time-root {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Инпуты и обёртки в ячейках — по ширине колонки, без фикс. max-width из Input.css */
+.edit-modal__table-section .input-basic,
+.edit-modal__table-section .input-wrap {
+  max-width: 100%;
+  min-width: 0;
+}
+.edit-modal__table-section .input-wrap .input-content {
+  min-width: 0;
+}
+
+/* InputTextarea в модалке: на всю ширину ячейки, max-height из пропа (например 80) */
+.edit-modal__table-section .input-textarea-root,
+.edit-modal__table-section .input-textarea-root .input-wrap--textarea,
+.edit-modal__table-section .input-textarea__content {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.edit-modal__table-section .input-textarea__content textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* InputBasic из проекта: в ячейках модалки — только встраивание в сетку (ширина, min-width) */
+.edit-modal__input {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.table td.edit-modal__cell--changed {
+  background-color: var(--color-primary-bg);
+}
+
+/* Стек инпутов в ячейке (исполнитель: ФИО + телефон) */
+.edit-modal__cell-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.edit-modal__cell-stack .edit-modal__input {
+  max-width: 100%;
+}
+
+.edit-modal__cell-period {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.edit-modal__cell-period-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.edit-modal__cell-period-row .edit-modal__input {
+  flex: 1;
+  min-width: 0;
+}
+
+.edit-modal__range-arrow {
+  color: var(--color-text-description);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* Select в ячейке */
+.edit-modal__select {
+  width: 100%;
+  min-width: 0;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-container);
+  font-family: var(--font-graphik);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%23251d3573' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.edit-modal__select:hover {
+  border-color: var(--color-primary-border-hover);
+}
+
+.edit-modal__select:focus {
+  border-color: var(--color-primary-base);
+  box-shadow: 0 0 0 2px var(--control-outline);
+}
+
+/* InputSelect в ячейках Услуга / Единица + выпадающий список */
+.edit-modal__select-wrap {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Стили для ui/Select в модалке — выше модалки (отступ 4px через sideOffset) */
+.edit-modal__dropdown-content {
+  z-index: 1100;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.edit-modal__dropdown-content--executor {
+  max-height: 360px;
+}
+
+/* Паддинги селекта в модалке — как у input-wrap (10px) */
+.edit-modal__select-wrap button,
+.edit-modal__executor-wrap button {
+  padding: 6px 10px;
+}
+
+/* SelectItem — высота под контент, кегль ФИО 13px, hover/checked */
+.edit-modal__select-item--executor {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  min-height: unset;
+  height: auto;
+  max-height: none;
+  line-height: 1.25;
+  white-space: normal;
+  word-wrap: break-word;
+  font-size: 13px;
+  transition: background-color 0.15s;
+  border-radius: 6px;
+}
+
+.edit-modal__select-item--executor:hover,
+.edit-modal__select-item--executor[data-highlighted] {
+  background: var(--control-item-bg-hover);
+}
+
+.edit-modal__select-item--executor[data-state="checked"],
+.edit-modal__select-item--executor[data-state="checked"]:hover,
+.edit-modal__select-item--executor[data-state="checked"][data-highlighted] {
+  background: var(--color-primary-bg);
+  font-weight: 500;
+}
+
+/* Анимация иконки: разворот 180° при открытии */
+.edit-modal__select-wrap button[data-state="open"] > div:last-of-type svg,
+.edit-modal__executor-wrap button[data-state="open"] > div:last-of-type svg {
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
+
+.edit-modal__select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  margin-top: 4px;
+  max-height: 240px;
+  overflow-y: auto;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-container);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.edit-modal__select-option {
+  display: block;
+  width: 100%;
+  padding: 8px 10px;
+  text-align: left;
+  border: none;
+  background: none;
+  font-family: var(--font-graphik);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.edit-modal__select-option:hover {
+  background: var(--control-item-bg-hover);
+}
+
+/* Колонка Исполнитель: селект (только ФИО) + caption под ним (номер телефона) */
+.edit-modal__executor-wrap {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.edit-modal__executor-trigger {
+  width: 100%;
+  min-width: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+
+.edit-modal__executor-caption {
+  color: var(--color-text-description);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* В состоянии disabled у селекта Исполнитель текст ФИО должен быть color-text-disabled */
+.edit-modal__table-section .table td.table-cell--executor [data-disabled] {
+  color: var(--color-text-disabled);
+}
+
+.edit-modal__select-option--executor {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+  padding: 8px 10px;
+}
+
+.edit-modal__executor-option-name {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text);
+}
+
+.edit-modal__executor-option-phone {
+  color: var(--color-text-description);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* Ширины колонок модалки (№, Статус, Исполнитель, Период, Услуга, Цена, Единица, Кол-во, Стоимость, Название) */
+.edit-modal__table-section .table th.table-header-cell--num,
+.edit-modal__table-section .table td.table-cell--num {
+  width: 80px;
+  min-width: 80px;
+}
+
+.edit-modal__table-section .table th.table-header-cell--status,
+.edit-modal__table-section .table td.table-cell--status {
+  width: 120px;
+  min-width: 120px;
+}
+
+.edit-modal__table-section .table th.table-header-cell--executor,
+.edit-modal__table-section .table td.table-cell--executor {
+  width: 220px;
+  min-width: 220px;
+}
+
+.edit-modal__table-section .table th.table-header-cell--period,
+.edit-modal__table-section .table td.table-cell--period {
+  width: 250px;
+  min-width: 250px;
+  padding-left: 12px;
+}
+
+.edit-modal__table-section .table th.table-header-cell--service,
+.edit-modal__table-section .table td.table-cell--service {
+  width: 200px;
+  min-width: 200px;
+}
+
+.edit-modal__table-section .table th.table-header-cell--price,
+.edit-modal__table-section .table td.table-cell--price {
+  width: 140px;
+  min-width: 140px;
+}
+
+.edit-modal__table-section .table th.table-header-cell--unit,
+.edit-modal__table-section .table td.table-cell--unit {
+  width: 140px;
+  min-width: 140px;
+}
+
+.edit-modal__table-section .table th.table-header-cell--quantity,
+.edit-modal__table-section .table td.table-cell--quantity {
+  width: 100px;
+  min-width: 100px;
+}
+
+.edit-modal__table-section .table th.table-header-cell--cost,
+.edit-modal__table-section .table td.table-cell--cost {
+  width: 140px;
+  min-width: 140px;
+}
+
+/* Колонка Стоимость — крайняя справа, фиксирована при скролле (как колонка с кнопками на стр. Задания) */
+.edit-modal__table-section .table th.table-header-cell--cost,
+.edit-modal__table-section .table td.table-cell--cost {
+  position: sticky;
+  right: 0;
+  z-index: 2;
+  background: #ffffff;
+}
+.edit-modal__table-section .table thead th.table-header-cell--cost {
+  background: #fbfbfb;
+}
+.edit-modal__table-section .table tbody tr:hover td.table-cell--cost {
+  background: #f5f4f5;
+}
+.edit-modal__table-section .table tbody tr.table-row--selected td.table-cell--cost,
+.edit-modal__table-section .table tbody tr.table-row--selected:hover td.table-cell--cost {
+  background: #f8f0ff;
+}
+.edit-modal__table-section .table tbody tr.table-row--selected:hover td.table-cell--cost {
+  background: #f3e5ff;
+}
+
+.edit-modal__table-section .table th.table-header-cell--title,
+.edit-modal__table-section .table td.table-cell--title {
+  width: 240px;
+  min-width: 240px;
+}

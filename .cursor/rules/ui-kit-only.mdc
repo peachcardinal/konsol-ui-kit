@@ -1,0 +1,114 @@
+# UI‑kit only (Konsol)
+
+## Общие правила
+
+- В этом репозитории `src/ui` — **единственный источник правды** для UI‑компонентов.
+- Во всех следующих проектах, основанных на этом UI‑ките, **нужно использовать только компоненты из `src/ui`**, а не придумывать новые визуальные компоненты в других местах.
+- Если какого‑то UI‑паттерна не хватает, сначала:
+  1. дорабатываем его в самом UI‑ките (`src/ui`),
+  2. только потом используем в продуктовых страницах.
+
+## Где живут компоненты
+
+- Все UI‑компоненты хранятся плоско в `src/ui` в формате **lowercase kebab‑case**:
+  - `src/ui/button.tsx`
+  - `src/ui/alert.tsx`
+  - `src/ui/accordion.tsx`
+  - `src/ui/banner.tsx`
+  - `src/ui/pagination.tsx`
+  - `src/ui/card.tsx`
+  - `src/ui/nav-button.tsx`
+  - `src/ui/sidebar.tsx`
+  - `src/ui/actions-panel.tsx`
+  - `src/ui/toast.tsx`
+  - `src/ui/form-item.tsx`
+  - `src/ui/input-label.tsx`
+  - `src/ui/checkbox.tsx`
+  - `src/ui/radio.tsx`
+  - `src/ui/switch.tsx`
+  - `src/ui/select.tsx`
+  - `src/ui/dropdown.tsx`
+  - `src/ui/tag.tsx`
+  - `src/ui/tabs.tsx`
+  - `src/ui/divider.tsx`
+  - `src/ui/link.tsx`
+  - `src/ui/tooltip.tsx`
+  - `src/ui/popover.tsx`
+  - `src/ui/scroll-area.tsx`
+  - `src/ui/segments.tsx`
+  - `src/ui/stepper.tsx`
+  - `src/ui/progress.tsx`
+  - `src/ui/avatar.tsx`
+  - `src/ui/textarea.tsx`
+  - `src/ui/uploader.tsx`
+  - `src/ui/autocomplete.tsx`
+  - `src/ui/command.tsx`
+  - `src/ui/carousel.tsx`
+  - `src/ui/customizable-carousel.tsx`
+  - `src/ui/date-picker.tsx`
+  - `src/ui/time-picker.tsx`
+  - `src/ui/time-range-picker.tsx`
+  - `src/ui/timeline.tsx`
+  - `src/ui/toaster.tsx`
+  - `src/ui/masked-input.tsx`
+  - `src/ui/otp-input.tsx`
+  - `src/ui/input-number.tsx`
+  - `src/ui/modal.tsx`
+  - `src/ui/side-modal.tsx`
+  - `src/ui/combobox.tsx`
+  - `src/ui/Spinner.jsx`
+  - `src/ui/Typography.jsx`
+
+- Сложные подсистемы (много файлов, сторибуки, утилиты) остаются папками:
+  - `src/ui/Icon`, `src/ui/Input`, `src/ui/table`, `src/ui/combobox-*`,
+    `src/ui/schedule-calendar`, `src/ui/date-range-picker`, `src/ui/phone-input`,
+    `src/ui/IconBanks`, `src/ui/IconDocuments`, `src/ui/Calendar` и т.п.
+
+## Импорт компонентов
+
+- Импорт всегда идёт **из `ui/<kebab-name>`**, а не из относительных путей до файлов внутри:
+
+```ts
+// правильно
+import { Button } from "ui/button";
+import { Alert } from "ui/alert";
+import { ActionsPanel } from "ui/actions-panel";
+import { Sidebar } from "ui/sidebar";
+import { Checkbox } from "ui/checkbox";
+import { Radio, RadioGroup } from "ui/radio";
+import { Switch } from "ui/switch";
+import { Select } from "ui/select";
+import { Dropdown } from "ui/dropdown";
+import { Tag } from "ui/tag";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "ui/tabs";
+import { Tooltip } from "ui/tooltip";
+import { Popover, PopoverTrigger, PopoverContent } from "ui/popover";
+```
+
+- Нельзя импортировать компоненты «в обход»:
+
+```ts
+// неправильно — лезем в старую структуру / внутренности
+import { Button } from "../ui/Button";
+import { Alert } from "../ui/Alert/Alert";
+import { Select } from "../ui/Select/Select";
+```
+
+## Запреты для следующих проектов
+
+- **Нельзя** создавать новые UI‑компоненты вне `src/ui` с теми же ролями, что уже есть:
+  - нельзя делать `src/components/Button*`, `src/components/Input*`, `src/components/Modal*` и т.п.
+  - все кнопки / инпуты / алерты / модалки должны идти из UI‑кита.
+- Если нужен новый визуальный паттерн:
+  1. обсудить и добавить его в `src/ui` (как новый `kebab-name.tsx`),
+  2. только потом использовать в `src/pages/**` или других фичах.
+
+## Как использовать этот UI‑кит в новых проектах
+
+- Рекомендуемый путь:
+  - использовать этот репозиторий как **GitHub Template** и начинать новые проекты «из него»;
+  - `src/ui` переносится целиком, `.cursor/rules/ui-kit-only.mdc` копируется как есть.
+- Во всех новых репозиториях:
+  - сохранять структуру `src/ui` и этот rules‑файл;
+  - при работе в Cursor я буду опираться на эти правила и **не придумывать новые UI‑компоненты**, а использовать готовые из UI‑кита.
+

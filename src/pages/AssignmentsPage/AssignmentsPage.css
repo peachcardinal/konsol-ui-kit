@@ -1,0 +1,121 @@
+/* Страница «Задания» — отступы по Figma. Sidebar 270px фиксирован слева. */
+
+.assignments-page {
+  min-height: 100vh;
+}
+
+.assignments-main {
+  margin-left: 270px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Header-Navigation — шапка над контентом, остаётся наверху при скролле */
+.header-navigation {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  padding: var(--space-24);
+  background-color: var(--color-bg-container);
+}
+
+.header-navigation__title {
+  margin: 0;
+  color: var(--color-text-heading);
+}
+
+.header-navigation__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+/* Прокручиваемая область: фильтры + таблица */
+.assignments-content,
+.assignments-content--with-actions-panel {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--space-24);
+  padding-top: var(--space-20);
+}
+
+.assignments-content--with-actions-panel {
+  padding-bottom: 100px;
+}
+
+
+/* Панель действий закреплена внизу экрана над контентом */
+.assignments-page__bottom-panel {
+  position: fixed;
+  bottom: 0;
+  left: 270px;
+  right: 0;
+  z-index: 20;
+  padding: var(--space-12);
+}
+
+.assignments-page__bottom-panel .actions-panel {
+  margin: 0;
+}
+
+.assignments-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: var(--space-8);
+  margin-bottom: var(--space-16);
+}
+
+.assignments-filters__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  flex-shrink: 0;
+}
+
+.assignments-search {
+  width: 400px;
+  min-width: 400px;
+  max-width: 400px;
+  flex-shrink: 0;
+}
+
+.assignments-filters-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin-left: auto;
+}
+
+.assignments-summary {
+  margin-bottom: var(--space-12);
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.assignments-table-section {
+  flex: 1;
+  min-height: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.assignments-company-name {
+  color: var(--color-text-heading);
+}
+
+.assignments-sidebar-footer {
+  color: var(--color-text-description);
+}
+
+.assignments-cell-secondary {
+  color: var(--color-text-description);
+}

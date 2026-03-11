@@ -1,0 +1,360 @@
+/* Table ✅ — Header Item + Row Item */
+
+.table-wrapper {
+  border-radius: 10px;
+  border: 1px solid var(--color-border-secondary);
+  overflow: hidden;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.table-scroll__content {
+  width: min-content;
+  min-width: 100%;
+}
+
+/* Скроллбар по рефу с прода: светлый трек, тёмный ползунок */
+.table-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+.table-scroll::-webkit-scrollbar-track {
+  background: #f0eff1;
+  border-radius: 0 0 4px 4px;
+}
+.table-scroll::-webkit-scrollbar-thumb {
+  background: #c9c9cf;
+  border-radius: 4px;
+}
+.table-scroll::-webkit-scrollbar-thumb:hover {
+  background: #bbbbc3;
+}
+.table-scroll {
+  scrollbar-color: #c9c9cf #f0eff1;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  min-width: min-content;
+  border-collapse: collapse;
+  background-color: var(--color-bg-container);
+}
+
+/* Фиксация слева: чекбокс, №, Исполнитель. Бордер снизу — только из общих правил th/td. */
+.table th.table-header-cell--checkbox,
+.table td.table-cell--checkbox {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #ffffff;
+}
+.table thead th.table-header-cell--checkbox { background: #fbfbfb; }
+
+.table th.table-header-cell--num,
+.table td.table-cell--num {
+  position: sticky;
+  left: 32px;
+  z-index: 2;
+  background: #ffffff;
+}
+.table thead th.table-header-cell--num { background: #fbfbfb; }
+
+.table th.table-header-cell--executor,
+.table td.table-cell--executor {
+  position: sticky;
+  left: 132px;
+  z-index: 2;
+  background: #ffffff;
+}
+.table thead th.table-header-cell--executor { background: #fbfbfb; }
+
+/* Фиксация справа: кнопка (empty) */
+.table th.table-header-cell--empty,
+.table td.table-cell--empty {
+  position: sticky;
+  right: 0;
+  z-index: 2;
+  background: #ffffff;
+}
+.table thead th.table-header-cell--empty { background: #fbfbfb; }
+
+/* Фон строки при hover/selected для sticky ячеек — только непрозрачные цвета */
+.table tbody tr:hover td.table-cell--checkbox,
+.table tbody tr:hover td.table-cell--num,
+.table tbody tr:hover td.table-cell--executor {
+  background: #f5f4f5;
+}
+.table tbody tr:hover td.table-cell--empty {
+  background: #f5f4f5;
+}
+.table tbody tr.table-row--selected td.table-cell--checkbox,
+.table tbody tr.table-row--selected td.table-cell--num,
+.table tbody tr.table-row--selected td.table-cell--executor {
+  background: #f8f0ff;
+}
+.table tbody tr.table-row--selected:hover td.table-cell--checkbox,
+.table tbody tr.table-row--selected:hover td.table-cell--num,
+.table tbody tr.table-row--selected:hover td.table-cell--executor {
+  background: #f3e5ff;
+}
+.table tbody tr.table-row--selected td.table-cell--empty,
+.table tbody tr.table-row--selected:hover td.table-cell--empty {
+  background: #f8f0ff;
+}
+.table tbody tr.table-row--selected:hover td.table-cell--empty {
+  background: #f3e5ff;
+}
+
+/* Подсветка только что изменённых строк (3 сек после сохранения в модалке), плавный переход фона */
+.table tbody tr.table-row--recently-changed {
+  background-color: var(--control-item-bg-active);
+  transition: background-color 0.35s ease-out;
+}
+.table tbody tr.table-row--recently-changed:hover {
+  background-color: var(--control-item-bg-active-hover);
+}
+.table tbody tr.table-row--recently-changed td.table-cell--checkbox,
+.table tbody tr.table-row--recently-changed td.table-cell--num,
+.table tbody tr.table-row--recently-changed td.table-cell--executor {
+  background: #f8f0ff;
+  transition: background-color 0.35s ease-out;
+}
+.table tbody tr.table-row--recently-changed:hover td.table-cell--checkbox,
+.table tbody tr.table-row--recently-changed:hover td.table-cell--num,
+.table tbody tr.table-row--recently-changed:hover td.table-cell--executor {
+  background: #f3e5ff;
+}
+.table tbody tr.table-row--recently-changed td.table-cell--empty,
+.table tbody tr.table-row--recently-changed:hover td.table-cell--empty {
+  background: #f8f0ff;
+  transition: background-color 0.35s ease-out;
+}
+.table tbody tr.table-row--recently-changed:hover td.table-cell--empty {
+  background: #f3e5ff;
+}
+
+.table thead {
+  background-color: var(--color-fill-alter);
+}
+
+.table th {
+  padding: 0;
+  text-align: left;
+  border-bottom: 1px solid var(--color-split);
+}
+
+.table th.table-header-cell--checkbox {
+  width: 32px;
+  min-width: 32px;
+}
+
+.table th.table-header-cell--empty {
+  width: 48px;
+  min-width: 48px;
+}
+
+/* Ширины колонок (№, Исполнитель, Название, Проект, Услуга, Стоимость и т.д.) */
+.table th.table-header-cell--num,
+.table td.table-cell--num { width: 100px; min-width: 100px; }
+.table th.table-header-cell--executor,
+.table td.table-cell--executor { width: 240px; min-width: 240px; }
+.table th.table-header-cell--title,
+.table td.table-cell--title { width: 200px; min-width: 200px; }
+.table th.table-header-cell--project,
+.table td.table-cell--project { width: 200px; min-width: 200px; }
+.table th.table-header-cell--service,
+.table td.table-cell--service { width: 200px; min-width: 200px; }
+.table th.table-header-cell--sum,
+.table td.table-cell--sum { width: 140px; min-width: 140px; }
+.table th.table-header-cell--period,
+.table td.table-cell--period { width: 140px; min-width: 140px; }
+.table th.table-header-cell--status,
+.table td.table-cell--status { width: 200px; min-width: 200px; }
+
+.table-header {
+  align-self: stretch;
+  flex: 1;
+  background-color: #fbfbfb;
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.table-header__wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  gap: 4px;
+}
+
+.table-header--checkbox .table-header__wrapper {
+  justify-content: center;
+}
+
+.table-header__wrapper--checkbox {
+  width: 32px;
+  min-width: 32px;
+  flex: 0 0 32px;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+
+.table-header-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.table-header__wrapper--empty {
+  justify-content: flex-end;
+}
+
+.table-header--sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.table-header--sortable:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.table-item-header-item {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  font-size: 12px;
+  color: rgba(37, 29, 53, 0.45);
+  font-family: var(--font-graphik);
+}
+
+.header-item-name {
+  position: relative;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.table-header__sorting-icon {
+  height: 12px;
+  width: 12px;
+  min-width: 12px;
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-icon);
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.table-header__sorting-icon > span,
+.table-header__sorting-icon svg {
+  display: block;
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.table-header__sorting-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+.table td {
+  padding: 8px;
+  vertical-align: top;
+  font-family: var(--font-graphik);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-split);
+  box-sizing: border-box;
+}
+
+/* Вертикальный геп 2px между двумя блоками/текстами внутри ячейки */
+.table td > * + * {
+  margin-top: 2px;
+}
+
+/* Вариант ячейки с двумя блоками: один под другим с гепом 2px */
+.table-cell__stacked {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.table tbody tr:hover {
+  background-color: var(--control-item-bg-hover);
+}
+
+.table tbody tr.table-row--selected {
+  background-color: var(--control-item-bg-active);
+}
+
+.table tbody tr.table-row--selected:hover {
+  background-color: var(--control-item-bg-active-hover);
+}
+
+.table td.table-cell--muted {
+  color: var(--color-text-description);
+}
+
+/* Cell types: checkbox | item | empty. Высота строки — по самой высокой ячейке, ячейки растягиваются по высоте. */
+.table td.table-cell--checkbox {
+  width: 32px;
+  min-width: 32px;
+  max-width: 32px;
+  white-space: nowrap;
+  padding: 8px;
+}
+
+.table td.table-cell--item {
+  /* vertical-align: top наследуется от .table td */
+}
+
+.table td.table-cell--empty {
+  width: 48px;
+  min-width: 48px;
+  max-width: 48px;
+  white-space: nowrap;
+  text-align: right;
+  padding: 8px;
+}
+
+/* Variations: size */
+.table--compact .table-header {
+  padding: 6px 0;
+}
+
+.table--compact .table-header__wrapper {
+  padding: 0 6px;
+}
+
+.table--compact th {
+  border-bottom-width: 1px;
+}
+
+.table--compact td {
+  padding: 8px;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+/* Variation: striped rows */
+.table--striped tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.table--striped tbody tr:nth-child(even):hover {
+  background-color: var(--color-bg-text-hover);
+}

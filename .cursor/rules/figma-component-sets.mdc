@@ -1,0 +1,202 @@
+---
+description: Use Figma component sets via figma-console; Button, Input, Dropdown, Menu, SelectionControl, DatePicker, Select, Avatar, Tab, Segment, Tag, Table, Alert, Banner by axes only
+alwaysApply: true
+---
+
+# Figma component sets (figma-console)
+
+## Общее
+
+- Всегда используй **component sets** из Figma только через MCP **figma-console** (поиск, инстанциирование, детали).
+- Не создавай кастомные компоненты/стили для того, что уже есть в файле как component set.
+
+## Цвета (палитра из Figma)
+
+- Палитра подключена в **`public/css/colors.css`** — CSS-переменные (`:root`) из стилей заливки файла Konsol-UI.
+- При вёрстке в браузере используй только эти переменные (не хардкод hex). Основные:
+  - Текст: `--color-text`, `--color-text-heading`, `--color-text-description`, `--color-text-placeholder`, `--color-text-disabled`
+  - Фоны: `--color-bg-container`, `--color-bg-layout`, `--color-bg-elevated`, `--color-primary-bg`, `--color-success-bg`, `--color-warning-bg`, `--color-error-bg`
+  - Границы: `--color-border`, `--color-border-secondary`, `--color-primary-border`
+  - Primary: `--color-primary-base`, `--color-primary-hover`, `--color-primary-active`, `--color-primary-text`
+  - Ссылки: `--color-link`, `--color-link-hover`, `--color-link-active`
+  - Семантика: `--color-success-base`, `--color-warning-base`, `--color-error-base`
+  - Шкалы: `--grey-1` … `--grey-10`, `--red-1` … `--red-10`, `--green-1` … `--green-10`, `--blue-1` … `--blue-10`, `--purple-1` … `--purple-10` и др.
+
+## Иконки
+
+- При создании интерфейса **всегда используй иконки только из каталога** — они завязаны на другие компоненты (кнопки, инпуты, навигация и т.д.). Не создавай и не подставляй сторонние иконки.
+- Источник: страница **Icon ✅** в Figma (node-id 323:0). Каталог в проекте: **`public/icons/icons-catalog.json`** (id, name, key для каждого компонента).
+- Секции: Material Icons (search, person, settings, arrow_back, close, add, edit, …), Custom Icons (bill, Save, security, …), Services (Sber, Visa, …), Documents, Countries, Flags, Pasport, Autorization icons.
+- В Figma: вставка через `figma_instantiate_component` с `componentKey` из каталога. Иконку выбирай по смыслу (например, кнопка «Назад» → arrow_back, поиск → search, закрыть → close).
+- **В коде (src/ui/Icon):** использовать иконки из единого каталога (Storybook names: PascalCase+Icon). Добавлять новые: SVG в `src/ui/Icon/`, импорт в icons.jsx. Не подставлять свои или сторонние SVG.
+
+## Кнопки
+
+- Для кнопок используй **только** component set **\*Button\*** (key: `16980a9ae00a594f5abe66eb1634f547594aadc0`).
+- **По умолчанию** ставь кнопки в размере **Default** (size=default); small или large используй только если макет/контекст явно требует компактный или крупный размер.
+- Дефолтный **gap** между кнопками, если их 2 и больше, равен **8** (px / units).
+- Если в кнопке есть иконка справа — стрелка (→) или шеврон, бери иконку из проекта **arrow_down** (иначе не найдётся и нарисуется своя).
+- Варианты выбирай **строго по осям**:
+  - **Type**: Primary, Default, Dashed, Text, Link
+  - **Size**: Default, Small, Large
+  - **State**: Default, Loaded, Hovered, Focused, Pressed, Disabled
+  - **Content**: Basic, Icon Only
+- **Не создавай** кастомные стили кнопок — только варианты \*Button\* через figma-console.
+
+### Button в коде (React)
+
+- В проекте для кнопок используй **компонент из UI-кита** — **`src/ui/Button`** (источник: `storybook-src`, API как в Storybook).
+- Импорт: `import { Button } from "../ui/Button"` (или от корня `src`: `from "ui/Button"`).
+- Пропсы: **variant** (primary, default, dashed, text, link, sber, tbank, telegram, max), **size** (sm, md, lg), **icon** (имя иконки в стиле Storybook: AddIcon, CloseIcon, ArrowDownIcon и т.д.), **iconPosition** (start, end), **iconOnly**, **isLoading**, **asChild**, **isActive**, **disabled**, **className**, **children**. Полный API и примеры — в **`src/ui/registry.ts`** (UIRegistry.Button).
+- Иконки: единый каталог **`src/ui/Icon`** (PascalCase+Icon, напр. `AddIcon`, `ArrowDownIcon`). Для обратной совместимости поддерживается snake_case (`name="add"`).
+
+## Инпуты
+
+- Для инпутов используй **только** component sets **\*Input\*** (Basic, Textarea, Title, Password, Search, Url, Phone и т.д. — по результатам `figma_search_components`).
+- Варианты выбирай **строго по осям**:
+  - **Type** — подтип инпута (Basic, Textarea, Password, Search, Url, Phone, Title)
+  - **Size**: Default, Large
+  - **State**: Default, Hover, Focused, Typing, Filled, Disabled
+  - **Status**: Default, Error
+- **Не создавай** кастомные стили инпутов — только варианты \*Input\* через figma-console.
+- **Input Search** в коде используй **строго по API** из **`src/ui/registry.ts`** (UIRegistry.InputSearch). Источник истины: [Storybook UI/Input — Docs](https://main.storybook.konsol.team/?path=/docs/ui-input--docs). Если в макете нужен вариант (prop или значение), которого нет в registry — **остановись** и скажи, какого prop/значения не хватает.
+
+### FormItem и InputLabel (React)
+
+- Для полей формы используй **FormItem** (`src/components/FormItem/FormItem.jsx`) с **InputLabel** внутри. Figma: Form Item (515:43856), Input Label (388:11598).
+- **По умолчанию** используй для InputLabel (и для FormItem) размер **default** (size=default); large — только если макет/контекст явно требует крупную метку.
+
+## Dropdown
+
+- Для выпадающих меню используй **только** компоненты со страницы **Dropdown ✅** (node-id 371:10124). Собирай меню из контейнера и подкомпонентов, не создавай кастомные dropdown’ы.
+- **Контейнер:** **\*Dropdown Menu\*** (key: `f7f8775a173f2a7cb37728516b27340889dca6fb`). Ось **Position**: Down, Top.
+- **Пункты и блоки** — варианты строго по осям:
+  - **Dropdown Menu Item** (key: `59d0b7a65e5958d7ca45944827f187b9db594aa3`): **State** = Default, Hover, Disabled; **Danger** = False, True.
+  - **Dropdown Submenu** (key: `c450655fbd60893027a744ecf5971a50e96c73cf`): **State** = Default, Hovered; **Opened** = no, yes.
+  - **Dropdown Select** (key: `eef0c92b6dce7e307bf538653b1c527d5ae02cd5`): **State** = Default, Hovered; **Checked** = False, True.
+- **Доп. компоненты** (без осей или с двумя вариантами): Dropdown Info, Dropdown MultiSelect, **Dropdown Divider** (разделитель), Dropdown Date, Dropdown Price, Dropdown Search, Dropdown Action. Искать по `figma_search_components` (query: "dropdown") при необходимости.
+- Внутрь \*Dropdown Menu\* добавляй экземпляры Menu Item, Submenu, Select, Divider и др. по смыслу.
+
+## SelectionControl (чекбокс, радио, свитч)
+
+- Для чекбоксов, радио-кнопок и переключателей используй **только** компоненты со страницы **SelectionСontrol ✅** (node-id 388:11036). Варианты строго по осям.
+- **\*SelectionСontrol\* / Check** (key: `2a7cd1fea1cfecf14de233c45cd88fbed37efd81`): **Status** = Inactive, Indeterminate, Active; **State** = Default, Disabled, Focused, Hovered, Pressed; **Size** = Default, Large; **Content** = Default, Icon Only.
+- **\*SelectionСontrol\* / Radio** (key: `12b05dbd79dc8ac0a60a368d93e036dd4111c757`): **Status** = False, True; **State** = Default, Disabled, Hovered, Focused, Pressed; **Size** = Default, Large; **Content** = Default, Icon Only.
+- **\*SelectionСontrol\* / Switch** (key: `f0f08e85df6b69ffacac863512adae39abafe691`): **Status** = False, True; **State** = Default, Disabled, Loading, Hovered, Focused; **Size** = Default, Large; **Content** = Default, Icon Only.
+
+## DatePicker
+
+- Для выбора даты используй **только** компоненты со страницы **DatePicker ✅** (node-id 388:11437). Связка: \*DatePicker\* (инпут/триггер) + при необходимости \*DatePicker Menu\* (календарь).
+- **\*DatePicker\*** (key: `8488633cc39c0bb3d7241f537c45e153a5a34760`): **Active** = Yes, No; **Size** = Default, Large.
+- **\*DatePicker Menu\*** (key: `f405d55d58629ee278af6c94fc6a30bcde193402`): **Range** = False, True (один день или диапазон); **Device** = Desktop, Mobile.
+- Для поля ввода даты можно использовать также **DatePicker Input** из \*Input\* (поиск по "DatePicker Input"). Не создавай кастомные календари.
+
+## Select
+
+- Для селектов (выбор из списка) используй **только** компоненты со страницы **Select ✅** (node-id 396:11543). Связка: \*Select\* (триггер) + **Select Input** (поле) + **\*Select Menu\*** (выпадающий список) + при мультивыборе **Multiple Selection Item**.
+- **\*Select\*** (key: `6480fc8002d1027d0c012b74b73838ac479e5ffe`): **Active** = Yes, No; **Size** = Default, Large.
+- **Select Input** (key: `81c3fa975a878f105c18a45eba416f996a0d5858`): **Status** = Default, Error; **Size** = Default, Large; **State** = Default, Hovered, Filled, Focused, Disabled; **Type** = Basic, Multiple.
+- **Multiple Selection Item** (key: `e923a71da4a960f185164ff24f9145ae66ef0a73`): **Size** = Default, Large; **State** = Default, Hovered, Disabled. Для мультиселекта внутри меню.
+- **\*Select Menu\*** (key: `d8c49f8f35d9a9a176a9bbd23172c6ee32e6055d`) — контейнер списка опций. Не создавай кастомные селекты.
+
+## Avatar
+
+- Для аватаров используй **только** компоненты со страницы **Avatar ✅** (node-id 397:12044). Правила с макета: **для компании** — \*Avatar\* / Image, **Shape=Square**; **для пользователя** — \*Avatar\* / Text, **Shape=Circle** с нужным Color.
+- **\*Avatar\* / Image** (key: `556ed8af5c01a0300e996295daf0d30fb8fdb7b2`): **Size** = Extra, Large, Default, Small; **Shape** = Square, Circle.
+- **\*Avatar\* / Text** (key: `ac54ac3d2dd238f93a0bc7ef2a30849f3799d0c7`): **Size** = Extra, Large, Default, Small; **Shape** = Square, Circle; **Color** = Purple, Blue, Volcano, Magenta, Cyan (для инициалов/подложки). Не создавай кастомные аватары.
+
+## Tab и Segment
+
+- Для вкладок и сегментированного управления используй **только** компоненты со страницы **Tab / Segment ✅** (node-id 411:17).
+- **\*Tab\*** (key: `619473ebc13604036cc41d407956df5ff4e716b4`) — контейнер вкладок. Варианты по осям (см. макет).
+- **Tab Item** (key: `b1b4f092c8f15e38055168d6527ff9ba3415afa5`): **Status** = False, True; **State** = Default, Disabled, Focused, Hovered, Pressed.
+- **\*Segment\*** (key: `cc02c560cc83e403c5f900a2815d33d37be358b5`): **Size** = Default, Large; **Block** = False (и при необходимости True по макету). Не создавай кастомные табы/сегменты.
+
+## Tag
+
+- Для тегов используй **только** компоненты со страницы **Tag ✅** (node-id 412:13377).
+- **\*Tag\* / Colorful** (key: `c05497445bd66da8e0eff9aa6918ab80f5297a4b`): **Preset** = Blue, Cyan, Geekblue, Gold, Gray, Green, Lime, Magenta, Orange, Purple, Red, Volcano. Не создавай кастомные теги.
+
+## Table
+
+- Для таблиц используй **только** компоненты со страницы **Table ✅** (node-id 411:16). Собирай таблицу из **Header Item** (шапка) и **Row Item** (строки).
+- **\*Table Item\* / Header Item** (key: `255e34d4105ff308a516c30ccdc4ec7154b4658d`): **Type** = Checkbox, Empty, Item, Switch; **State** = Default, Hover, Pressed; **Sort** = Off, On; **Sort state** = None, Up, Down.
+- **\*Table Item\* / Row Item** (key: `67a27de0ea36d23180efe4eb2fb78ed9d07ef502`): **Alling** = Horizontal, Vertical (вероятно Align); **Content** = Text, Button, Checkbox, Empty, Switch, Tag. Не создавай кастомные ячейки/таблицы.
+
+## Alert
+
+- Для алертов (уведомления в контенте) используй **только** компоненты со страницы **Alert ✅** (node-id 413:15306).
+- **\*Alert\*** (key: `ce7affccabbe607de9d8e2430b66c4267f83bfe2`): **Type** = Error, Info, Success, Warning; **Description** = False, True; **Device** = Desktop, Mobile. Не создавай кастомные алерты.
+
+## Banner
+
+- Для баннеров (полоса уведомления) используй **только** компоненты со страницы **Banner ✅** (node-id 6851:17102).
+- **\*Banner\*** (key: `8429da4e8d9573fce81331f13774a4e9ac4fb59b`): **Color** = Gold, Green, Purple, Red; **Device** = Desktop, Mobile; **Alternative view** = Off, On. Не создавай кастомные баннеры.
+
+## Menu (боковое меню, хедер, навигация)
+
+- Для бокового меню, хедера и навигации используй **только** компоненты со страницы **Menu ✅** (node-id 371:11372). Собирай меню из Sidebar + кнопок навигации и переключения компании/пользователя.
+- **Sidebar** (key: `9c49fc18f2350763ec0801c37fb8a9792b4343f7`): **Device** = Desktop, Mobile; **Mode** = Company, Contractor.
+- **Nav Button** (key: `aafd656871b00e78d8b42c25ac7a185bf82e9bb7`): **State** = Default, Active, Hover; **Device** = Desktop, Mobile.
+- **Header-Mobile** (key: `45957ebe29b5c4b3bb0da359f32dcac8c9eb7c1c`): **State** = Collapsed, Expanded; **Mode** = Company, Contractor; **Device** = Mobile.
+- **Company Button Primary** (key: `42c9bf90b7ad68097c32d096c84288f992493660`): **State** = Default, Hover, Pressed, Selected; **Device** = Desktop, Mobile.
+- **Company Button Secondary** (key: `2c5b7ad676b889be65f9ce43b7b43b6e39842540`): **State** = Default, Hover, Pressed, Selected.
+- **User Button** (key: `254847c80dd266ea43a989aff934f08e1ad63ae6`): **State** = Default, Hover.
+- **Change-Company** (key: `3ec3a3a1da6d823d5e754e3fa3feb39e6bd9ccab`): **State** = Default, Hovered, Pressed; **Open** = no, yes; **Device** = Desktop, Mobile. Не создавай кастомные сайдбары/хедеры.
+
+### ActionsPanel (React)
+
+- Панель действий над контентом (вне сетки). Компонент: **`src/components/ActionsPanel/ActionsPanel.jsx`**.
+- Стили: `border-radius: 10px`, без бордера, фон `--color-bg-container`, паддинги 12px, `box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.10)`.
+- **Отступы панели свои по 12px** — до сайдбара слева, до края окна справа и снизу; **не складываются с общими паддингами контента**. При вложенности в блок с `padding: 24px` используются отрицательные margin: `margin: 0 -12px -12px -12px` (top right bottom left).
+- Пропсы: `summary` — `{ text, sum, onClose }` (текст сводки, сумма в стиле base primary normal + `--color-text-description`, опционально onClose); `rightSlot` — контент справа; `children` — кнопки действий. Геп между элементами в левой части: `0.5rem`.
+- Блок сводки: `height: 2rem`, `padding: 0 0.625rem`, `gap: 0.375rem`, `border-radius: 0.5rem`, `background: var(--color-fill-content)`. Крестик закрытия: 16×16, по центру по вертикали. Экспорт: `ActionsPanelSummary`.
+
+### Sidebar в вёрстке (React, вид по умолчанию)
+
+- При верстке макетов **всегда используй** компонент **`Sidebar`** из `src/components/Sidebar/Sidebar.jsx` **в таком виде по умолчанию** (не создавай свой сайдбар).
+- По умолчанию Sidebar уже содержит: блок компании (аватар 32×32, бордер 0.5px `--color-border-secondary`, иконка unfold, hover `--control-item-bg-hover`), блок баланса (одна строка, без фона, бордер `--color-border-secondary`, текст `--color-text-description`), навигацию (children — пункты через `NavButton`), футер пользователя (аватар 32×32 фон `--purple-1`, инициалы `--purple-4`, стиль sm secondary, иконка unfold 20×20, hover как у компании).
+- Опциональные пропсы для подстановки контента: `companyName`, `companyLogoSrc`, `balanceLabel`, `balanceValue`, `userName`, `userInitials`. Полная кастомизация: `companyBlock`, `balanceBlock`, `footer` (React-ноды вместо дефолтных блоков).
+- Логотип компании по умолчанию: `public/company-avatar.png`.
+
+## Текстовые стили
+
+- Используй **только** локальные текстовые стили из файла. Не создавай кастомные шрифты/размеры — применяй стили по **имени** (см. таблицу ниже).
+- При создании текста в Figma через `figma_execute`: получить стиль через `figma.getLocalTextStylesAsync()`, найти по имени, применить `textNode.textStyleId = style.id`.
+
+### Стили файла (Konsol-UI)
+
+| Имя стиля | ID | Шрифт | fontSize | lineHeight |
+|-----------|-----|--------|----------|------------|
+| Base/Base Primary Normal | S:bfe644e791cd3fe6853da286b2d388ce360c2ba6, | Graphik Regular | 14 | 20 |
+| Base/Base Secondary Normal | S:251f7cc56dd697c29947dc06c9f634895f4f995d, | CoFo Sans Mono Regular | 14 | 20 |
+| Base/Base Primary Strong | S:30cff76452d239623020850eee99d2c16798dcae, | Graphik Medium | 14 | 20 |
+| SM/SM Primary Normal | S:b93d5628eee6b40fb3c687c4cee697255db6f62b, | Graphik Regular | 12 | 16 |
+| SM/SM Secondary Normal | S:69badcefe868ce9d07de404abf0a5e2aece0a7f8, | CoFo Sans Mono Regular | 12 | 16 |
+| SM/SM Primary Strong | S:683f30e645a58935dfbee8ce20c535bb37e977f3, | Graphik Medium | 12 | 16 |
+| LG/LG Primary Normal | S:911968897be6374b20819f6b6d97294696b6d171, | Graphik Regular | 16 | 22 |
+| LG/LG Secondary Normal | S:cb8f0498c319633a385b2579b3856774987fba1e, | CoFo Sans Mono Regular | 16 | 22 |
+| LG/LG Primary Strong | S:9edee4931a877ffb5f797be3430a622631e8b7ce, | Graphik Medium | 16 | 22 |
+| XL/XL Primary Normal | S:c94e3b9fc4d09b146cfbad1a5213f7ff48a2f3cf, | Graphik Regular | 20 | 26 |
+| XL/XL Primary Strong | S:d313a3785036198cdad9f8a9eb6238cd50d24ca2, | Graphik Medium | 20 | 26 |
+| Heading/Heading 0 | S:26d3119978d56197468855108aab847c11628652, | Graphik Bold | 28 | 32 |
+| Heading/Heading 1 | S:003e012ee3c03a1a40be52c2abcf23acadd0015f, | Graphik Bold | 24 | 28 |
+| Heading/Heading 2 | S:1e33f402d1fddb2a2fb047d708118585ba82a9c5, | Graphik Bold | 20 | 24 |
+| Heading/Heading 3 | S:f89695d20d989b9fd2df6b52cae24f38e8ee0e55, | Graphik Bold | 18 | 22 |
+| Heading/Heading 4 | S:18884c287d9f32aa19354bd5b44abad79c0e62be, | Graphik Bold | 16 | 20 |
+| Heading/Heading 5 | S:36c52f4f662b2e63f51668db20298a9634aa77d6, | Graphik Bold | 14 | 20 |
+
+- **Шрифты:** Graphik (Regular, Medium, Bold), CoFo Sans Mono (Regular). При создании интерфейса выбирай стиль по смыслу: заголовки — Heading 0–5, основной текст — Base/LG/XL Primary Normal или Strong, моно/второстепенный — Secondary Normal.
+
+### Как передать шрифты / обновить стили
+
+- **Сейчас:** я уже использую таблицу выше из этого правила — при создании интерфейса буду брать стили по имени (например, «Heading/Heading 1», «Base/Base Primary Normal»).
+- **Другой файл или новые стили:** (1) в Figma открой нужный файл и выполни через figma-console код `figma.getLocalTextStylesAsync()` и пришли результат сюда, или (2) добавь в этот rule-файл новую таблицу (имя стиля, ID, шрифт, размер, line height). Я буду опираться на актуальную таблицу в правиле.
+- **Удобный формат для вставки:** JSON-массив из `getLocalTextStylesAsync()` (id, name, fontSize, fontName, lineHeight) или просто список имён стилей с подписью «заголовки / тело / подписи» — я подставлю их в код при создании UI.
+
+## Workflow
+
+1. Поиск: `figma_search_components` (query: "Button", "Input", "dropdown", "Menu", "Sidebar", "SelectionControl", "DatePicker", "Select", "Avatar", "Tab", "Segment", "Tag", "Table", "Alert", "Banner" и т.п.).
+2. Детали: `figma_get_component_details` с `componentKey`.
+3. Вставка: `figma_instantiate_component` с `componentKey` и параметрами варианта (Menu: Sidebar Device/Mode, Nav Button State/Device, Header-Mobile, Company/User Button State, Change-Company State/Open/Device; остальные — см. соответствующие секции правила).
+4. Текст: применять локальный текстовый стиль по имени (таблица выше) через `figma_execute` и `textNode.textStyleId = style.id`.

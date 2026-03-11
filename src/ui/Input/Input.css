@@ -1,0 +1,657 @@
+/* *Input* Search — по Figma: .input-search, .content, .search-icon, .search */
+
+.input-wrap {
+  width: 100%;
+  max-width: 360px;
+  min-width: 0;
+  position: relative;
+  border-radius: 8px;
+  background-color: var(--color-bg-container);
+  border: 1px solid var(--color-border);
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  text-align: left;
+  font-size: 14px;
+  font-family: var(--font-graphik);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-content {
+  height: var(--input-height-default);
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* Size=Large — используется в InputBasic, Input Date, Time, Select; кегль как у Input (Search) lg */
+.input-wrap--large {
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.input-wrap--large .input-content {
+  height: var(--input-height-large);
+}
+
+.input-wrap--error {
+  border-color: var(--color-error-base);
+}
+
+.input-wrap--error:focus-within {
+  border-color: var(--color-error-base);
+  box-shadow: 0 0 0 2px var(--color-error-bg);
+}
+
+.input-wrap--disabled {
+  cursor: not-allowed;
+  background-color: var(--color-bg-container-disabled);
+  border-color: var(--color-border);
+  color: var(--color-text-disabled);
+}
+
+.input-wrap--disabled input {
+  cursor: not-allowed;
+  color: var(--color-text-disabled);
+}
+
+.input-wrap--disabled input::placeholder {
+  color: var(--color-text-disabled);
+}
+
+/* В модалке «Изменить задания»: инпуты по ширине колонки */
+.edit-assignments-modal .input-wrap {
+  max-width: 100%;
+}
+.edit-assignments-modal .input-wrap .input-content {
+  min-width: 0;
+}
+
+.input-wrap--filled {
+  /* Цвет текста поля при введённом значении */
+  color: var(--color-text);
+}
+
+.input-wrap:hover:not(.input-wrap--error):not(.input-wrap--disabled) {
+  border-color: var(--color-primary-border);
+}
+
+.input-wrap:focus-within:not(.input-wrap--error) {
+  border-color: var(--color-primary-base);
+  box-shadow: 0 0 0 2px var(--control-outline);
+}
+
+.input-wrap .input-icon--left {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  flex-shrink: 0;
+  color: var(--color-text-placeholder);
+}
+
+.input-basic {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-basic__caption {
+  font-family: var(--font-graphik);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-text-description);
+}
+
+.input-basic__caption--error {
+  color: var(--color-error-base);
+}
+
+.input-suffix {
+  flex-shrink: 0;
+  font-family: var(--font-graphik);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-placeholder);
+}
+
+.input-wrap--filled .input-suffix {
+  color: var(--color-text);
+}
+
+.input-wrap--disabled .input-suffix {
+  color: var(--color-text-disabled);
+}
+
+.input-icon--right {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--color-icon);
+}
+
+.input-wrap--error .input-icon--right {
+  color: var(--color-error-base);
+}
+
+.input-icon--right svg {
+  width: 16px;
+  height: 16px;
+}
+
+.input-wrap .input-icon--left svg {
+  width: 16px;
+  height: 16px;
+}
+
+.input-wrap input {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 20px;
+  color: var(--color-text);
+  outline: none;
+}
+
+.input-wrap input::placeholder {
+  color: var(--color-text-placeholder);
+  font-family: var(--font-graphik);
+}
+
+/* disabled перебивает общий .input-wrap input (цвет — после, чтобы имел приоритет) */
+.input-wrap--disabled input {
+  color: var(--color-text-disabled);
+}
+.input-wrap--disabled input::placeholder {
+  color: var(--color-text-disabled);
+}
+
+/* Типинг / Filled: иконка и текст как обычный текст */
+.input-wrap--filled .input-icon--left {
+  color: var(--color-text);
+}
+
+.input-wrap--filled input::placeholder {
+  color: var(--color-text);
+}
+
+.input-clear {
+  display: none;
+}
+
+/* InputTime: скрываем встроенную иконку времени браузера (чёрная у текста), оставляем только нашу справа */
+.input-wrap.input-time input[type="time"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+/* InputDate: скрываем встроенную иконку календаря браузера, оставляем только нашу справа */
+.input-wrap.input-date input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.input-time-root {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Контент по вертикали по центру */
+.input-wrap.input-time .input-content {
+  align-items: center;
+}
+
+/* Цвет текста в InputTime по стейтам.
+ * Пока значение не выбрано (hasValue=false => нет .input-wrap--filled), 00:00 ведёт себя как placeholder:
+ * colorTextPlaceholder. После выбора времени (filled) — colorText. Disabled перекрывается общими правилами. */
+.input-wrap.input-time:not(.input-wrap--filled):not(.input-wrap--disabled) input[type="time"] {
+  color: var(--color-text-placeholder);
+}
+
+/* В disabled у InputTime текст всегда colorTextDisabled, как в остальных инпутах */
+.input-wrap.input-time.input-wrap--disabled input[type="time"] {
+  color: var(--color-text-disabled);
+}
+
+/* Single time: Figma 160px; range: 320px */
+.input-wrap.input-time:not(.input-wrap--range) {
+  max-width: 160px;
+}
+
+.input-wrap--range {
+  max-width: 320px;
+}
+
+.input-wrap--range .input-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.input-wrap--range .input-content input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Сепаратор arrow_next: фиксированный размер, без сдвигов */
+.input-time__sep {
+  flex-shrink: 0;
+  width: 16px;
+  min-width: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-description);
+}
+
+.input-time__sep svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.input-wrap--filled .input-time__sep {
+  color: var(--color-text);
+}
+
+.input-wrap--disabled .input-time__sep {
+  color: var(--color-text-disabled);
+}
+
+/* Иконка справа (time / error_fill): ведёт себя как текст по цветам */
+.input-time__icon-right {
+  flex-shrink: 0;
+  width: 16px;
+  min-width: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-placeholder);
+}
+
+.input-time__icon-right svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.input-wrap--filled .input-time__icon-right {
+  color: var(--color-text);
+}
+
+.input-wrap--disabled .input-time__icon-right {
+  color: var(--color-text-disabled);
+}
+
+.input-wrap--error .input-time__icon-right {
+  color: var(--color-error-base);
+}
+
+/* InputDate — поле даты (одиночное или диапазон). Figma *DatePicker* (415-795). */
+.input-date-root {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-wrap.input-date .input-content {
+  align-items: center;
+}
+
+.input-wrap.input-date:not(.input-wrap--filled):not(.input-wrap--disabled) input[type="date"] {
+  color: var(--color-text-placeholder);
+}
+
+.input-wrap.input-date.input-wrap--disabled input[type="date"] {
+  color: var(--color-text-disabled);
+}
+
+.input-wrap.input-date:not(.input-wrap--range) {
+  max-width: 160px;
+}
+
+.input-date__sep {
+  flex-shrink: 0;
+  width: 16px;
+  min-width: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-description);
+}
+
+.input-date__sep svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.input-wrap--filled .input-date__sep {
+  color: var(--color-text);
+}
+
+.input-wrap--disabled .input-date__sep {
+  color: var(--color-text-disabled);
+}
+
+.input-date__icon-right {
+  flex-shrink: 0;
+  width: 16px;
+  min-width: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-placeholder);
+}
+
+.input-date__icon-right svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.input-wrap--filled .input-date__icon-right {
+  color: var(--color-text);
+}
+
+.input-wrap--disabled .input-date__icon-right {
+  color: var(--color-text-disabled);
+}
+
+.input-wrap--error .input-date__icon-right {
+  color: var(--color-error-base);
+}
+
+/* InputTextarea — многострочное поле. Figma *Input* / Textarea (389-12330). */
+.input-textarea-root {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Не обрезаем контент и иконку при скролле (overflow переопределён с базового hidden) */
+.input-wrap.input-wrap--textarea {
+  overflow: visible;
+}
+.input-wrap--textarea {
+  align-items: stretch;
+  padding: 8px 10px;
+  min-height: 0;
+}
+
+.input-wrap--textarea.input-wrap--large {
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.input-textarea__content {
+  position: relative;
+  min-height: 40px;
+  max-height: 140px;
+  overflow: visible;
+}
+
+.input-wrap--textarea.input-wrap--large .input-textarea__content {
+  min-height: 44px;
+}
+
+/* Скролл и ограничение высоты — только у textarea, контейнер не обрезает */
+.input-wrap--textarea .input-textarea__content textarea {
+  display: block;
+  min-height: 24px;
+  width: 100%;
+  max-height: 140px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text);
+  outline: none;
+  resize: none;
+  overflow-y: auto;
+  overflow-x: visible;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+/* InputSelect — триггер селекта. Figma Select Input (415:57). */
+.input-select-root {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-wrap.input-select {
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  max-width: 320px;
+  border: none;
+  font: inherit;
+  background: var(--color-bg-container);
+  border: 1px solid var(--color-border);
+}
+
+.input-wrap.input-select.input-wrap--disabled {
+  background-color: var(--color-bg-container-disabled);
+}
+
+.input-wrap.input-select.input-wrap--error {
+  border-color: var(--color-error-base);
+}
+
+.input-wrap.input-select.input-wrap--error:focus-visible {
+  border-color: var(--color-error-base);
+  box-shadow: 0 0 0 2px var(--color-error-bg);
+}
+
+.input-wrap.input-select:hover:not(.input-wrap--error):not(.input-wrap--disabled) {
+  border-color: var(--color-primary-border);
+}
+
+.input-wrap.input-select:focus {
+  outline: none;
+}
+
+.input-wrap.input-select:focus-visible {
+  border-color: var(--color-primary-base);
+  box-shadow: 0 0 0 2px var(--control-outline);
+}
+
+.input-select__content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.input-select__text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-graphik);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text);
+}
+
+.input-wrap--large .input-select__text {
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.input-select__text--placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.input-wrap--disabled .input-select__text--placeholder,
+.input-wrap--disabled .input-select__text {
+  color: var(--color-text-disabled);
+}
+
+.input-wrap.input-select.input-select--multiple .input-select__content {
+  gap: 2px;
+}
+
+/* Стрелка arrow_down: по умолчанию — иконка, в filled — как текст, в error — не красная */
+.input-select__arrow {
+  color: var(--color-icon);
+  transition: transform 0.2s ease;
+}
+
+.input-select__arrow--open {
+  transform: rotate(180deg);
+}
+
+.input-wrap--filled .input-select__arrow {
+  color: var(--color-text);
+}
+
+.input-wrap--disabled .input-select__arrow {
+  color: var(--color-text-disabled);
+}
+
+.input-wrap--error .input-select__arrow {
+  color: var(--color-icon);
+}
+
+/* Иконка ошибки справа (только в error) */
+.input-select__icon-error {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  line-height: 0;
+  color: var(--color-error-base);
+}
+
+.input-select__icon-error svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.input-wrap--textarea.input-wrap--error .input-textarea__content textarea {
+  padding-right: 28px;
+}
+
+.input-wrap--textarea .input-textarea__content textarea::placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.input-wrap--textarea.input-wrap--filled .input-textarea__content textarea::placeholder {
+  color: var(--color-text);
+}
+
+.input-wrap--textarea.input-wrap--disabled .input-textarea__content textarea {
+  cursor: not-allowed;
+  color: var(--color-text-disabled);
+}
+
+.input-wrap--textarea.input-wrap--disabled .input-textarea__content textarea::placeholder {
+  color: var(--color-text-disabled);
+}
+
+/* Скроллбар: ширина 4, цвет border (webkit ниже) */
+.input-textarea__content::-webkit-scrollbar {
+  width: 4px;
+}
+.input-textarea__content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.input-textarea__content::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+.input-textarea__content::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border);
+}
+
+/* Иконка ошибки вне внутренней начинки — не обрезается, не скроллится */
+.input-textarea__icon-error {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-error-base);
+  pointer-events: none;
+}
+
+.input-wrap--textarea.input-wrap--large .input-textarea__icon-error {
+  top: 8px;
+  right: 12px;
+}
+
+.input-textarea__icon-error svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Ручка ресайза 7×7: вне внутренней начинки (не скроллится), геп справа и снизу 4px */
+.input-textarea__resize-handle {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 7px;
+  height: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  cursor: se-resize;
+}
+
+.input-textarea__resize-handle svg {
+  width: 7px;
+  height: 7px;
+  display: block;
+}
+
+.input-wrap--textarea.input-wrap--filled .input-textarea__resize-handle {
+  color: var(--color-text);
+}
+
+.input-wrap--textarea.input-wrap--disabled .input-textarea__resize-handle {
+  color: var(--color-text-disabled);
+}
+
+.input-wrap--textarea.input-wrap--error .input-textarea__resize-handle {
+  color: var(--color-error-base);
+}

@@ -1,0 +1,20 @@
+/* Базовый сброс и фон по макету */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--color-text);
+  background-color: var(--color-bg-container);
+  font-family: var(--font-graphik);
+  /* Мягкий рендеринг шрифтов, как на проде — без субпиксельного сглаживания */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}

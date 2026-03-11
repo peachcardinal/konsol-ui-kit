@@ -1,0 +1,43 @@
+/* Input Label — Figma 388:11598. Метка над полем ввода.
+   default: base primary strong, геп снизу 6; large: lg primary strong, геп снизу 10. */
+
+.input-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-heading);
+  /* default: геп снизу 6 задаётся gap в FormItem */
+}
+
+.input-label--large {
+  /* large: геп снизу 10 = FormItem gap 6 + margin 4 */
+  margin-bottom: 4px;
+}
+
+.input-label__text {
+  color: inherit;
+  font-family: var(--font-graphik);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+.input-label--large .input-label__text {
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.input-label__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--color-icon);
+}
+
+.input-label__icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}

@@ -1,0 +1,22 @@
+/* Внутренний контент модалки «Изменить стоимость заданий».
+   Общий layout (позиционирование, header/footer/content wrapper) задаётся в SideModal. */
+
+.change-cost-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.change-cost-modal__row {
+  display: flex;
+  gap: 10px;
+}
+
+.change-cost-modal__row .form-item {
+  flex: 1;
+  min-width: 0;
+}
+
+.change-cost-modal__submit {
+  width: 100%;
+}
