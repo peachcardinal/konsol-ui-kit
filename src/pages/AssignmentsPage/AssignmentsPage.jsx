@@ -4,7 +4,7 @@ import { ActionsPanel } from "../../ui/actions-panel";
 import { NavButton } from "../../ui/nav-button";
 import { Button } from "../../ui/button";
 import { InputSearch } from "../../ui/Input";
-import { Table, TableHeader, TableRow, TableCell } from "../../ui/Table";
+import { Table, TableHeader, TableRow, TableCell } from "../../ui/table";
 import { Checkbox } from "../../ui/checkbox";
 import { Tag } from "../../ui/Tag";
 import { ToastAuto } from "../../ui/toast";
