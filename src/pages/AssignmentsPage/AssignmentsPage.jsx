@@ -299,13 +299,9 @@ export default function AssignmentsPage() {
               <Button variant="primary">Отправить</Button>
               <Button variant="default">Завершить</Button>
               <Button variant="default" icon="ArrowDownIcon" iconPosition="end">Создать акт</Button>
-              <Button
-                variant="text"
-                iconOnly
-                icon="EditIcon"
-                aria-label="Изменить"
-                onClick={() => setEditModalOpen(true)}
-              />
+              <Button variant="text" onClick={() => setEditModalOpen(true)}>
+                Изменить
+              </Button>
               <Button variant="text" iconOnly icon="MoreVertIcon" aria-label="Ещё" />
             </ActionsPanel>
           </div>
